@@ -1,19 +1,16 @@
-<ion-card>
-  <ion-card-header>
-    <ion-card-title>Login</ion-card-title>
-  </ion-card-header>
+<form #loginForm="ngForm" (ngSubmit)="login()" autocomplete="off">
+  <ion-list>
 
-  <ion-card-content>
-    <form #loginForm="ngForm" (ngSubmit)="login()" autocomplete="off">
-      <ion-item>
-        <ion-label fixed>Pin</ion-label>
-        <ion-input name="pin" id="pin" type="password" maxlength="4" required [(ngModel)]="pin" #pinField></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label>
+        <ion-icon name="unlock" item-left></ion-icon>
+      </ion-label>
+      <ion-input name="pin" id="pin" placeholder="PIN" type="password" maxlength="4" required [(ngModel)]="pin" #pinField></ion-input>
+    </ion-item>
 
-      <ion-button color="primary" size="large" expand="full" type="submit" [disabled]="!loginForm.form.valid">
-        <span [hidden]="inProgress">Login</span>
-        <ion-spinner [hidden]="!inProgress"></ion-spinner>
-      </ion-button>
-    </form>
-  </ion-card-content>
-</ion-card>
+    <ion-button color="dark" size="large" expand="full" type="submit" [disabled]="!loginForm.form.valid">
+      <span [hidden]="inProgress">Login</span>
+      <ion-spinner [hidden]="!inProgress"></ion-spinner>
+    </ion-button>
+  </ion-list>
+</form>

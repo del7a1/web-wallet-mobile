@@ -1,3 +1,24 @@
-input {
-  border-radius: 10px;
+:host {
+  background: url("/assets/image/nordea-background.jpg") no-repeat 100% 100%;
+  background-position: center;
+  background-color: rgba(2, 0, 161, 1);
+}
+
+ion-list {
+  background: none;
+
+  ion-item {
+    --background: rgba(255, 255, 255, 0.5);
+    --border-radius: 5px;
+    margin: 20px;
+    font-size: 3rem;
+    letter-spacing: .5rem;
+    text-align: center;
+  }
+
+  ion-button {
+    margin: 20px;
+    --border-radius: 5px;
+  }
+
 }
