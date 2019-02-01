@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AccountFetcherService } from '../account-fetcher.service';
-import { Account } from '../account.interface';
+import { Account, TransactionResponse } from '../account.interface';
 import { Observable } from 'rxjs';
 import { flatMap, map } from 'rxjs/operators';
+
+export interface IdAndTransactionResponse {
+  id: string;
+  transactionResponse$: Observable<TransactionResponse>;
+}
 
 @Component({
   selector: 'page-account-details',
@@ -12,9 +17,8 @@ import { flatMap, map } from 'rxjs/operators';
 })
 export class AccountDetailsPage implements OnInit {
 
-  id$: Observable<string>;
   account$: Observable<Account>;
-  transactions$: Observable<any>;
+  idAndTransactionResponse$: Observable<IdAndTransactionResponse>;
 
   constructor(
     private route: ActivatedRoute,
@@ -22,21 +26,24 @@ export class AccountDetailsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.id$ = this.route.paramMap.pipe(
-       map(params => params.get('id'))
-     );
+    let id$ = this.route.paramMap.pipe(
+      map(params => params.get('id'))
+    );
 
-    this.account$ = this.id$
+    this.account$ = id$
       .pipe(
         flatMap(
           id => this.accountService.getAccount(id)
         )
       );
 
-    this.transactions$ = this.id$
+    this.idAndTransactionResponse$ = id$
       .pipe(
-        flatMap(
-          id => this.accountService.getTransactions(id)
+        map(
+          id => {
+            let response = this.accountService.getTransactions(id);
+            return <IdAndTransactionResponse>{ id: id, transactionResponse$: response }
+          }
         )
       );
   }

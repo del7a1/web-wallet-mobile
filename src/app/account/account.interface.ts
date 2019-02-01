@@ -13,7 +13,36 @@ export interface Account {
   status: string;
 }
 
-interface AccountNumber {
+export interface AccountNumber {
   _type: string;
   value: string;
+}
+
+export interface TransactionResponse {
+  continuation_key: string;
+  transactions: Array<Transaction>
+}
+
+export interface Transaction {
+  _type: TransactionType;
+  transaction_id: string;
+  currency: string;
+  booking_date: string;
+  value_date: string;
+  type_description: string;
+  narrative: string;
+  message: string;
+  status: string;
+  reference: string;
+  own_message: string;
+  counterparty_name: string;
+  transaction_date: string;
+  card_number: string;
+  payment_date: string;
+  amount: number;
+}
+
+export enum TransactionType {
+  CreditTransaction,
+  DebitTransaction
 }

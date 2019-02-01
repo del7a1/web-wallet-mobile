@@ -1,0 +1,11 @@
+.border-bottom {
+  border-bottom: 1px solid;
+}
+
+.currency {
+  font-weight: bold;
+
+  &--debit {
+    color: red;
+  }
+}

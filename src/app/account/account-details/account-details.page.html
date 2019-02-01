@@ -4,7 +4,7 @@
       <ion-back-button></ion-back-button>
     </ion-buttons>
     <ion-title>
-      {{ id | async }}
+      Account Details
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -16,14 +16,24 @@
         {{account._id}}
       </div>
       <ng-template #accloading>
-        <ion-spinner></ion-spinner>
+        <ion-row>
+          <ion-spinner name="circles"></ion-spinner>
+        </ion-row>
       </ng-template>
 
-      <div *ngIf="(transactions$ | async) as transactions; else txloading">
-        <transaction-list [transactions]="transactions"></transaction-list>
+      <div *ngIf="(idAndTransactionResponse$ | async) as idAndTransactionResponse">
+        <div *ngIf="(idAndTransactionResponse.transactionResponse$ | async) as transactionResponse; else txloading">
+          <transaction-list
+            [accountId]="idAndTransactionResponse.id"
+            [continuationKey]="transactionResponse.continuation_key"
+            [transactions]="transactionResponse.transactions">
+          </transaction-list>
+        </div>
       </div>
       <ng-template #txloading>
-        <ion-spinner></ion-spinner>
+        <ion-row>
+          <ion-spinner name="circles"></ion-spinner>
+        </ion-row>
       </ng-template>
     </ion-card-content>
   </ion-card>

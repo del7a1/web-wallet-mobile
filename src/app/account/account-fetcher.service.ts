@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Account } from './account.interface';
+import { Account, TransactionResponse } from './account.interface';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
@@ -26,11 +26,11 @@ export class AccountFetcherService {
     );
   }
 
-  getTransactions(accountId: string): Observable<Account> {
+  getTransactions(accountId: string): Observable<TransactionResponse> {
     return this.http.get(
       `${environment.api}/v3/accounts/${accountId}/transactions`
     ).pipe(
-      map(data => data['response']['transactions'])
+      map(data => data['response'])
     );
   }
 }

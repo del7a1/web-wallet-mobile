@@ -10,7 +10,7 @@
 
     <ion-button color="dark" size="large" expand="full" type="submit" [disabled]="!loginForm.form.valid">
       <span [hidden]="inProgress">Login</span>
-      <ion-spinner [hidden]="!inProgress"></ion-spinner>
+      <ion-spinner name="circles" [hidden]="!inProgress"></ion-spinner>
     </ion-button>
   </ion-list>
 </form>
