@@ -5,15 +5,19 @@ import { FormsModule } from '@angular/forms';
 import { AccountFetcherService } from './account-fetcher.service';
 import { AccountsSliderComponent } from './accounts-slider/accounts-slider.component';
 import { AccountGeneralInfoComponent } from './account-general-info/account-general-info.component';
+import { TransactionListComponent } from './transaction-list/transaction-list.component';
+import { AccountDetailsPage } from './account-details/account-details.page';
+import { AccountPageRoutingModule } from './account.router.module';
 
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
-    FormsModule
+    FormsModule,
+    AccountPageRoutingModule
   ],
   providers: [AccountFetcherService],
-  declarations: [AccountsSliderComponent, AccountGeneralInfoComponent],
+  declarations: [AccountsSliderComponent, AccountGeneralInfoComponent, TransactionListComponent, AccountDetailsPage],
   exports: [AccountsSliderComponent]
 })
 export class AccountModule {}

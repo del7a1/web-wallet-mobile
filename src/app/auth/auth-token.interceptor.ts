@@ -5,16 +5,17 @@ import { AuthService } from './auth.service';
 import { environment } from '../../environments/environment';
 
 @Injectable()
-export class AuthCodeInterceptor implements HttpInterceptor {
+export class AuthTokenInterceptor implements HttpInterceptor {
 
   constructor(private authService: AuthService) {}
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    let toke = this.authService.getToken();
-    if (typeof toke !== 'undefined') {
+    let token = this.authService.getToken();
+
+    if (typeof token !== 'undefined') {
       req = req.clone({
         setHeaders: {
-          'Authorization': `Bearer ${this.authService.getToken()}`,
+          'Authorization': `Bearer ${token}`,
           'X-IBM-Client-Id': environment.client_id,
           'X-IBM-Client-Secret': environment.secret,
         }

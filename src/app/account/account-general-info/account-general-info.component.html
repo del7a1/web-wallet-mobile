@@ -1,16 +1,22 @@
-<ion-card class="account-general-info">
-  <ion-card-header>
-    <ion-card-title>{{account._id}}</ion-card-title>
-    <ion-card-title>{{account.product}}</ion-card-title>
+<ion-card>
+  <ion-card-header (click)="showDetails()">
+    <ion-row>
+      <ion-card-subtitle>{{account.account_name}}</ion-card-subtitle>
+    </ion-row>
+    <ion-row>
+      <ion-card-title>{{account._id}}</ion-card-title>
+    </ion-row>
   </ion-card-header>
 
   <ion-card-content>
-    <ion-item>
-      <ion-label>
-        <ion-icon name="cash"></ion-icon>
-      </ion-label>
-      {{account.available_balance}}
-    </ion-item>
+    <div (click)="showDetails()">
+      <ion-row>
+        <ion-label>Balance</ion-label>
+      </ion-row>
+      <ion-row>
+        <ion-label class="currency">{{account.available_balance | currency: account.currency}}</ion-label>
+      </ion-row>
+    </div>
 
     <ion-row>
       <ion-col size="6">

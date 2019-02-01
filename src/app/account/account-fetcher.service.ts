@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Account } from './account.interface';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class AccountFetcherService {
 
   constructor(private http: HttpClient) { }
 
-  getAccounts(): Observable<Account> {
+  getAccounts(): Observable<Array<Account>> {
     return this.http.get(
       `${environment.api}/v3/accounts`
     ).pipe(
@@ -18,4 +18,19 @@ export class AccountFetcherService {
     );
   }
 
+  getAccount(accountId: string): Observable<Account> {
+    return this.http.get(
+      `${environment.api}/v3/accounts/${accountId}`
+    ).pipe(
+      map(data => data['response'])
+    );
+  }
+
+  getTransactions(accountId: string): Observable<Account> {
+    return this.http.get(
+      `${environment.api}/v3/accounts/${accountId}/transactions`
+    ).pipe(
+      map(data => data['response']['transactions'])
+    );
+  }
 }

@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button></ion-back-button>
+    </ion-buttons>
+    <ion-title>
+      {{ id | async }}
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="nordea-background">
+  <ion-card>
+    <ion-card-content>
+      <div *ngIf="(account$ | async) as account; else accloading">
+        {{account._id}}
+      </div>
+      <ng-template #accloading>
+        <ion-spinner></ion-spinner>
+      </ng-template>
+
+      <div *ngIf="(transactions$ | async) as transactions; else txloading">
+        <transaction-list [transactions]="transactions"></transaction-list>
+      </div>
+      <ng-template #txloading>
+        <ion-spinner></ion-spinner>
+      </ng-template>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

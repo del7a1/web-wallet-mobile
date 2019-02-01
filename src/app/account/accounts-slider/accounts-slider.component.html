@@ -1,5 +1,5 @@
 <ion-slides pager="true">
-  <ion-slide *ngFor='let account of accounts | async'>
-    <account-general-info [account]="account"></account-general-info>
+  <ion-slide *ngFor='let account of accounts$ | async'>
+    <account-general-info class="full-width" [account]="account"></account-general-info>
   </ion-slide>
 </ion-slides>

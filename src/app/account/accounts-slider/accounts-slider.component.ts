@@ -10,12 +10,12 @@ import { Account } from '../account.interface';
 })
 export class AccountsSliderComponent implements OnInit {
 
-  accounts: Observable<Account>;
+  accounts$: Observable<Array<Account>>;
 
-  constructor(public accountService: AccountFetcherService) { }
+  constructor(private accountService: AccountFetcherService) { }
 
   ngOnInit() {
-    this.accounts = this.accountService.getAccounts();
+    this.accounts$ = this.accountService.getAccounts();
   }
 
 }

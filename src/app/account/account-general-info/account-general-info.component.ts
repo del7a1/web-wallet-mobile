@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
-// import { CurrencyPipe } from '@angular/common';
 import { Account } from '../account.interface';
+import { Router } from '@angular/router';
+import { NavController } from '@ionic/angular';
 
 @Component({
   selector: 'account-general-info',
@@ -11,10 +12,18 @@ export class AccountGeneralInfoComponent {
 
   @Input() account: Account;
 
-  constructor() { }
+  constructor(
+    private router: Router,
+    private navControll: NavController
+  ) { }
 
-  // getAvailableBalance() {
-  //   return this.currencyPipe.transform(this.account.available_balance, this.account.currency, true, '1.2-2');
-  // }
+  showDetails() {
+    
+    this.router.navigate(['account', { id: this.account._id }]);
+  }
+
+  goBack() {
+    this.navControll.pop();
+  }
 
 }

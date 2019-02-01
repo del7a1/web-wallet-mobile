@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment';
+import { map } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -12,36 +13,31 @@ export class AuthService {
   private token: string;
   private redirectUrl = '';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient) { }
 
-  authorize(redirectUrl: string) {
-    this.redirectUrl = redirectUrl;
-
-    window.location.href = `${environment.api}/v3/authorize?client_id=${environment.client_id}&redirect_uri=${window.location.origin}/login&scope=ACCOUNTS_BALANCES,ACCOUNTS_BASIC,ACCOUNTS_DETAILS,ACCOUNTS_TRANSACTIONS,PAYMENTS_MULTIPLE&duration=12345&country=DK&state=fakeState`;
+  login() {
+    window.location.href = `${environment.api}/v3/authorize?client_id=${environment.client_id}&redirect_uri=${window.location.origin}/code-redirect&scope=ACCOUNTS_BALANCES,ACCOUNTS_BASIC,ACCOUNTS_DETAILS,ACCOUNTS_TRANSACTIONS,PAYMENTS_MULTIPLE&duration=12345&country=DK&state=fakeState`;
   }
 
-  login(code: string) {
+  codeToToken(code: string): Observable<string> {
     let headers = new HttpHeaders({
       'X-IBM-Client-Id': environment.client_id,
       'X-IBM-Client-Secret': environment.secret,
       'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8'
     });
 
-    let body = `code=${code}&redirect_uri=${window.location.origin}/login`;
+    let body = `code=${code}&redirect_uri=${window.location.origin}/code-redirect`;
 
-    this.http.post(
+    return this.http.post(
       `${environment.api}/v3/authorize/token`,
       body,
       { headers: headers }
-    ).subscribe(
-      data => {
+    ).pipe(
+      map(data => {
         this.isLoggedIn = true;
         this.token = data['access_token'];
-        this.router.navigate([this.redirectUrl]);
-      },
-      error => {
-        console.error('Error occured while authorizing')
-      }
+        return this.redirectUrl;
+      })
     );
   }
 
@@ -51,6 +47,14 @@ export class AuthService {
 
   authenticated(): boolean {
     return this.isLoggedIn;
+  }
+
+  setRedirectUrl(redirectUrl: string) {
+    this.redirectUrl = redirectUrl;
+  }
+
+  getRedirectUrl(): string {
+    return this.redirectUrl;
   }
 
 }
